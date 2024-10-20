@@ -164,7 +164,6 @@ sympy==1.13.3
 tabulate==0.9.0
 tenacity==9.0.0
 termcolor==2.4.0
-tqdm==4.65.0
 traitlets==5.10.3
 typing-extensions==4.9.0
 tzdata==2024.5
