@@ -65,7 +65,6 @@ google-cloud-firestore==2.16.1
 google-cloud-pubsub==2.25.0
 google-cloud-storage==2.8.0
 google-cloud-translate==3.15.5
-google-colab==1.0.0
 grpcio==1.64.1
 h5netcdf==1.4.0
 h5py==3.11.0
