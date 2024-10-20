@@ -42,7 +42,7 @@ def predict_top_symptoms(input_text, top_k=3):
     return symptoms
 
 # API Key for Google Generative AI
-API_KEY = 'AIzaSyBr6DsJGRLVzWQc7vB_4BgjJQCMDWuBGxk'
+API_KEY = st.secrets["api_key"]
 
 # Configure the Google Generative AI
 ai.configure(api_key=API_KEY)
