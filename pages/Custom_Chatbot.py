@@ -4,7 +4,7 @@ import torch
 from transformers import AutoTokenizer, AutoModelForSequenceClassification
 
 # Load the intents.json file
-with open("/workspaces/Medical-chatbot-app/intents.json") as f:
+with open("intents.json") as f:
     intents = json.load(f)
 
 # Load the symptom classification model and tokenizer
