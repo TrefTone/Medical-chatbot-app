@@ -2,6 +2,7 @@ import streamlit as st
 import json
 import torch
 from transformers import AutoTokenizer, AutoModelForSequenceClassification
+from googletrans import Translator
 
 # Load the intents.json file
 with open("intents.json") as f:
@@ -22,6 +23,27 @@ symptom_mapping = {
     21: "Stomach ache", 22: "Blurry vision", 23: "Open wound", 24: "Hard to breathe", 
     25: "Muscle pain"
 }
+
+# Language code to full name mapping
+language_mapping = {
+    "en": "English", "hi": "Hindi", "mr": "Marathi", "bn": "Bengali", "pa": "Punjabi",
+    "fr": "French", "es": "Spanish", "de": "German", "it": "Italian", "zh-cn": "Chinese"
+    # Add more languages as needed
+}
+
+# Initialize the translator
+translator = Translator()
+
+# Function to translate input to English and detect language
+def translate_to_english(input_text):
+    detection = translator.detect(input_text)
+    detected_language_code = detection.lang
+    detected_language_full = language_mapping.get(detected_language_code, detected_language_code)
+    
+    if detected_language_code != "en":
+        translated = translator.translate(input_text, dest="en")
+        return translated.text, detected_language_full
+    return input_text, "English"
 
 # Function to make predictions and get top symptoms with scores
 def predict_top_symptoms(input_text, top_k=3, score_threshold=3):
@@ -70,13 +92,15 @@ for msg in st.session_state.messages:
     st.chat_message(msg["role"]).write(msg["content"])
 
 # User input handling
-# User input handling
 if prompt := st.chat_input("Ask a medical question"):
     st.session_state.messages.append({"role": "user", "content": prompt})
     st.chat_message("user").write(prompt)
     
+    # Translate input to English and detect language
+    translated_prompt, detected_lang = translate_to_english(prompt)
+    
     # Predict the top symptoms
-    top_symptoms_with_scores = predict_top_symptoms(prompt)
+    top_symptoms_with_scores = predict_top_symptoms(translated_prompt)
     symptom_str = ", ".join([f"{symptom} (score: {score:.4f})" for symptom, score in top_symptoms_with_scores])
     
     # Get responses from intents.json based on the predicted symptoms
@@ -98,6 +122,10 @@ if prompt := st.chat_input("Ask a medical question"):
         response_msg += f"\n\nTop Predicted Symptoms:\n{symptom_str}"
     else:
         response_msg += "\n\nNo significant symptoms detected."
+    
+    # Add the detected language to the response
+    if detected_lang != "English":
+        response_msg += f"\n\nNote: Your input was detected in {detected_lang} and translated to English."
 
     # Display the response
     st.session_state.messages.append({"role": "assistant", "content": response_msg})
