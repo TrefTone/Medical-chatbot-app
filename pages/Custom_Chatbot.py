@@ -28,7 +28,6 @@ symptom_mapping = {
 language_mapping = {
     "en": "English", "hi": "Hindi", "mr": "Marathi", "bn": "Bengali", "pa": "Punjabi",
     "fr": "French", "es": "Spanish", "de": "German", "it": "Italian", "zh-cn": "Chinese"
-    # Add more languages as needed
 }
 
 # Initialize the translator
