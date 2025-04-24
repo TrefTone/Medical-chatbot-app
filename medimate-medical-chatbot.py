@@ -90,7 +90,7 @@ Make sure the response is concise, clear, and directly addresses the user's inpu
 """
 
     # Create a new model for the generative response
-    chat_model = ai.GenerativeModel("gemini-pro")  # or bison
+    chat_model = ai.GenerativeModel("gemini-2.0-flash")  # or bison
     chat = chat_model.start_chat()  # Initialize chat
     
     # Send the message along with the top symptoms to the chatbot
